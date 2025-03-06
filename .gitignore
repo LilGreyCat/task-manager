@@ -1,0 +1,17 @@
+# Go build artifacts
+/bin/
+/pkg/
+*.exe
+*.out
+*.test
+
+# SQLite database & migrations
+backend/data/taskmanager.db
+backend/migrations/
+
+# Go modules
+backend/go.sum
+
+# Node.js dependencies (for frontend)
+frontend/node_modules/
+frontend/build/
