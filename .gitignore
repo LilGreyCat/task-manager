@@ -7,7 +7,6 @@
 
 # SQLite database & migrations
 backend/data/taskmanager.db
-backend/migrations/
 migrate
 
 # Go modules
