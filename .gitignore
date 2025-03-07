@@ -8,6 +8,7 @@
 # SQLite database & migrations
 backend/data/taskmanager.db
 backend/migrations/
+migrate
 
 # Go modules
 backend/go.sum
@@ -15,3 +16,7 @@ backend/go.sum
 # Node.js dependencies (for frontend)
 frontend/node_modules/
 frontend/build/
+
+# Misc
+.env
+bin
