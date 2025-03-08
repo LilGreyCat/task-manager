@@ -8,6 +8,7 @@ import (
 	"github.com/LilGreyCat/task-manager/app"
 	"github.com/LilGreyCat/task-manager/config"
 	"github.com/LilGreyCat/task-manager/routes"
+	"github.com/gorilla/handlers"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -25,11 +26,15 @@ func main() {
 		UserHandler: appInstance.Handlers.UserHandler,
 	})
 
-	// Print clickable link
-	fmt.Println("Server running at \033[1;34mhttp://localhost" + cfg.Port + "\033[0m 🚀")
+	// Enable CORS for Vite (port 5173)
+	corsHandler := handlers.CORS(
+		handlers.AllowedOrigins([]string{"http://localhost:5173"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"}),
+		handlers.AllowedHeaders([]string{"Content-Type"}),
+	)(router)
 
-	// Start HTTP server
-	err = http.ListenAndServe(cfg.Port, router)
+	fmt.Println("Server running at http://localhost" + cfg.Port + " 🚀")
+	err = http.ListenAndServe(cfg.Port, corsHandler)
 	if err != nil {
 		log.Fatalf("Server error: %v", err)
 	}
