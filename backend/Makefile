@@ -31,8 +31,7 @@ build:
 	fi
 	go build -o bin/task-manager main.go
 
-run: 
-	build
+run: build
 	./bin/task-manager
 
 clean:
