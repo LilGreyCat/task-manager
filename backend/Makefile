@@ -17,6 +17,12 @@ migrate-down:
 
 build:
 	@mkdir -p bin
+	@if ! command -v migrate &> /dev/null || [ ! -f "./migrate" ]; then \
+		echo "Migrate binary not found. Running setup-migrations..."; \
+		make setup-migrations; \
+	else \
+		echo "Migrate is already installed and built."; \
+	fi
 	@if [ ! -f "./data/taskmanager.db" ]; then \
 		echo "Database file missing. Running migrations..."; \
 		make migrate-up; \
