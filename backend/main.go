@@ -33,7 +33,7 @@ func main() {
 		handlers.AllowedHeaders([]string{"Content-Type"}),
 	)(router)
 
-	fmt.Println("Server running at http://localhost" + cfg.Port + " 🚀")
+	fmt.Println("Server running at \033[1;34mhttp://localhost" + cfg.Port + "\033[0m 🚀")
 	err = http.ListenAndServe(cfg.Port, corsHandler)
 	if err != nil {
 		log.Fatalf("Server error: %v", err)
