@@ -67,6 +67,28 @@ func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*models.Us
 	return &user, nil
 }
 
+func (r *userRepo) ListUsers(ctx context.Context) ([]*models.User, error) {
+	query := "SELECT id, name, email, created_at FROM users"
+	rows, err := r.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []*models.User
+	for rows.Next() {
+		var user models.User
+		var idStr string
+		if err := rows.Scan(&idStr, &user.Name, &user.Email, &user.CreatedAt); err != nil {
+			return nil, err
+		}
+		user.ID, _ = uuid.FromString(idStr)
+		users = append(users, &user)
+	}
+
+	return users, nil
+}
+
 func (r *userRepo) UpdateUser(ctx context.Context, user *models.User) error {
 	query := "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?"
 	_, err := r.db.ExecContext(ctx, query, user.Name, user.Email, user.Password, user.ID.String())
