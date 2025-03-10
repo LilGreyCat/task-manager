@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Container, Typography, List, ListItem, ListItemText } from "@mui/material";
-import UserForm from "./components/UserForm";
+import { Container, Typography } from "@mui/material";
+import UserFormView from "./views/UserFormView";
+import UserList from "./components/UserList";
+import { fetchUsers, deleteUser } from "./handlers/userHandlers";
 
 function App() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchUsers();
+    fetchUsers(setUsers);
   }, []);
-
-  const fetchUsers = () => {
-    axios.get("http://localhost:8080/users")
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-      });
-  };
 
   return (
     <Container maxWidth="md">
@@ -26,18 +17,8 @@ function App() {
         Task Manager - Users
       </Typography>
 
-      {/* User Form */}
-      <UserForm onUserAdded={fetchUsers} />
-
-      {/* Users List */}
-      <Typography variant="h5" align="center">Users List</Typography>
-      <List>
-        {users.map((user) => (
-          <ListItem key={user.id}>
-            <ListItemText primary={user.name} secondary={user.email} />
-          </ListItem>
-        ))}
-      </List>
+      <UserFormView onUserAdded={() => fetchUsers(setUsers)} />
+      <UserList users={users} onDelete={(id) => deleteUser(id, setUsers)} />
     </Container>
   );
 }
