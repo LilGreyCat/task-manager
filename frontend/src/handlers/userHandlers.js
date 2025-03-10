@@ -15,6 +15,7 @@ export const fetchUsers = async (setUsers) => {
 // Delete a user
 export const deleteUser = async (id, setUsers) => {
   try {
+    console.log(`Deleting user with ID: ${id}`);  // Debugging log
     await axios.delete(`${API_URL}/${id}`);
     setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
   } catch (error) {
