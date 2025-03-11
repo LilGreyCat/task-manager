@@ -10,6 +10,7 @@ import (
 	"github.com/LilGreyCat/task-manager/models"
 	"github.com/LilGreyCat/task-manager/repository"
 	"github.com/gofrs/uuid"
+	"github.com/gorilla/mux"
 )
 
 // UserHandler handles HTTP requests for users.
@@ -165,8 +166,9 @@ func (h *UserHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *UserHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
-	idStr := r.URL.Query().Get("id")
-	if idStr == "" {
+	vars := mux.Vars(r)
+	idStr, exists := vars["id"]
+	if !exists {
 		http.Error(w, "User ID is required", http.StatusBadRequest)
 		return
 	}
